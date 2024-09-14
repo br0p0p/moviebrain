@@ -1,0 +1,26 @@
+{{ define "base" }}
+<html>
+  <head>
+    <link rel="stylesheet" href="assets/styles/pico.min.css" />
+    <link rel="stylesheet" href="assets/styles/styles.css" />
+    <script
+      src="https://unpkg.com/htmx.org@2.0.2/dist/htmx.js"
+      integrity="sha384-yZq+5izaUBKcRgFbxgkRYwpHhHHCpp5nseXp0MEQ1A4MTWVMnqkmcuFez8x5qfxr"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body>
+    <header class="container">
+      <nav>
+        <ul>
+          <li><strong>moviebrain</strong></li>
+        </ul>
+      </nav>
+    </header>
+    <main>
+      <div class="container">{{ template "content" . }}</div>
+    </main>
+    <footer class="container"></footer>
+  </body>
+</html>
+{{ end }}

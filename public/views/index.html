@@ -1,6 +1,20 @@
-{{define "index"}}
-<form action="/suggest" method="POST">
-    <input name="search" placeholder="The Shining" />
-    <button type="submit">Search</button>
-</form>
+{{define "content"}}
+<div>
+  <form role="search">
+    <input
+      name="q"
+      type="search"
+      placeholder="The Shining"
+      hx-get="/search"
+      hx-trigger="input changed delay:500ms, search"
+      hx-target="#search-results"
+      hx-indicator="#spinner"
+    />
+    <button type="submit" value="Search">Search</button>
+  </form>
+</div>
+<div id="search-results-container">
+  <span id="spinner" class="htmx-indicator" aria-busy="true">Searching...</span>
+  <div id="search-results"></div>
+</div>
 {{end}}

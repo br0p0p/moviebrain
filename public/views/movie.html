@@ -1,0 +1,14 @@
+{{ define "movie" }}
+<!-- <div>{{.}} movie data here</div> -->
+<article class="movie-card">
+  <header>{{ .Title }}</header>
+  <dl>
+    <dt>Year</dt>
+    <dd>{{ .Year }}</dd>
+    <dt>Director</dt>
+    <dd>{{ .Director }}</dd>
+    <!-- <p><strong>Director:</strong> {{ .Director }}</p> -->
+    <!-- <p><strong>Year:</strong> {{ .Year }}</p> -->
+  </dl>
+</article>
+{{ end }}

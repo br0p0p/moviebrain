@@ -1,0 +1,4 @@
+{{ define "movies" }}
+<h5>Query: {{ .Query }}</h5>
+<div>{{ range .Movies }}{{ template "movie" . }}{{ end }}</div>
+{{ end }}
