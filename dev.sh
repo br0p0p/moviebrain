@@ -1,1 +1,1 @@
-nodemon --watch './**/*.go' --watch './public/**/*' --signal SIGTERM --exec 'go' run server.go
+PORT=1323 nodemon --watch './**/*.go' --watch './public/views/**/*.html' --signal SIGTERM --exec 'go' run server.go
