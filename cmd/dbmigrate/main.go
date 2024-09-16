@@ -22,10 +22,10 @@ func main() {
 			fmt.Println("Running DB migrations")
 			db = sqlx.MustConnect("sqlite3", "data.db")
 
-			schema := `CREATE TABLE place (
-				country text,
-				city text NULL,
-				telcode integer);`
+			schema := `CREATE TABLE genre (
+				id INTEGER PRIMARY KEY,
+				name VARCHAR(100)
+			);`
 
 			result := db.MustExec(schema)
 			rowsAffected, err := result.RowsAffected()
@@ -35,6 +35,7 @@ func main() {
 			}
 
 			fmt.Println("Rows affected:", rowsAffected)
+			fmt.Println("Success.")
 		},
 	}
 
