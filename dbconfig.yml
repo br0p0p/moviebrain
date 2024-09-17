@@ -1,0 +1,11 @@
+development:
+  dialect: postgres
+  datasource: host=localhost dbname=moviebrain user=mbuser password=secret sslmode=disable
+  dir: migrations/postgres
+
+production:
+  dialect: postgres
+  # datasource: postgresql://${PGUSER}:${PGPASSWORD}@${PGHOST}:${PGPORT}/${PGDATABASE}
+  datasource: ${DATABASE_URL}
+  dir: migrations/postgres
+  table: migrations
