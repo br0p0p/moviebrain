@@ -34,3 +34,71 @@
 .movie-card dl dd {
   flex-basis: 80%;
 }
+
+.movie-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.movie-row-image {
+  display: block;
+  position: relative;
+  flex: none;
+  width: fit-content;
+  height: fit-content;
+  margin-right: 2rem;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  opacity: 1;
+  transition: 0.5s ease;
+  backface-visibility: hidden;
+}
+
+/* .movie-row img {
+  margin-right: 2rem;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  opacity: 1;
+} */
+
+.movie-row-image > * {
+  border-radius: inherit;
+}
+
+.movie-row-image:hover img {
+  filter: blur(4px);
+}
+
+.movie-row-image:hover .overlay {
+  opacity: 1;
+}
+
+.movie-row-content > *:last-child {
+  margin-bottom: unset;
+}
+
+.overlay {
+  cursor: pointer;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  width: 100%;
+  opacity: 0;
+  transition: 0.5s ease;
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+.overlay .text {
+  color: white;
+  font-size: 120px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}

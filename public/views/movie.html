@@ -1,13 +1,14 @@
 {{ define "movie" }}
-<article class="movie-card">
-  <header>{{ .title }}</header>
-  <dl>
-    <!-- <dt>Year</dt>
-    <dd>{{ .Year }}</dd>
-    <dt>Director</dt>
-    <dd>{{ .Director }}</dd> -->
-    <!-- <p><strong>Director:</strong> {{ .Director }}</p> -->
-    <!-- <p><strong>Year:</strong> {{ .Year }}</p> -->
-  </dl>
-</article>
+<div class="movie-row">
+  <div class="movie-row-image">
+    <img alt="{{ .title }}" src="{{ .full_poster_path }}" />
+    <div class="overlay">
+      <span class="text">+</span>
+    </div>
+  </div>
+  <div class="movie-row-content">
+    <h3>{{ .title }}</h3>
+    <p>{{ .overview }}</p>
+  </div>
+</div>
 {{ end }}

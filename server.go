@@ -7,6 +7,7 @@ import (
 	"os"
 	"text/template"
 
+	tmdb "github.com/cyruzin/golang-tmdb"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/gommon/log"
 
@@ -97,21 +98,15 @@ func Search(c echo.Context) error {
 		return c.Render(http.StatusOK, "no_results", nil)
 	}
 
-	searchTerm := "%" + query + "%"
 	// movies := []Movie{}
 
-	fmt.Println("Searching for", searchTerm)
+	fmt.Println("Searching for", query)
 
-	// err := db.Select(&movies, "SELECT * FROM movie WHERE to_tsvector(title) @@ to_tsquery($1)", query)
-	rows, err := db.Queryx("SELECT * FROM movie WHERE title LIKE $1", searchTerm)
+	// rows, err := db.Queryx("SELECT * FROM movie WHERE to_tsvector(title) @@ to_tsquery($1)", query)
+	rows, err := db.Queryx("SELECT * FROM movie WHERE title LIKE $1", "%"+query+"%")
 	defer rows.Close()
 
 	movies := []map[string]interface{}{}
-
-	// for rows.Next() {
-	// 	err = rows.MapScan(movies)
-	// 	fmt.Printf("results: %v\n\n", movies)
-	// }
 
 	for rows.Next() {
 		// Create a map to hold the row data
@@ -122,6 +117,8 @@ func Search(c echo.Context) error {
 			log.Fatal(err)
 		}
 
+		rowData["full_poster_path"] = tmdb.GetImageURL(rowData["poster_path"].(string), tmdb.W154)
+
 		// Append the map to the results slice
 		movies = append(movies, rowData)
 	}
@@ -130,26 +127,11 @@ func Search(c echo.Context) error {
 		log.Fatal(err)
 	}
 
-	fmt.Printf("movies: %v\n\n", movies)
-
-	// Example movie data
-	// _movies2 := []map[string]interface{}{
-	// 	{"Title": "The Shawshank Redemption", "Director": "Frank Darabont", "Year": 1994},
-	// 	{"Title": "The Godfather", "Director": "Francis Ford Coppola", "Year": 1972},
-	// 	{"Title": "The Dark Knight", "Director": "Christopher Nolan", "Year": 2008},
-	// }
-
 	// Pass the movies list to the template
 	data := map[string]interface{}{
 		"Query":  query,
 		"Movies": movies,
 	}
-
-	// b, err := json.Marshal(data)
-	// if err != nil {
-	// 	log.Fatal(err)
-	// }
-	// fmt.Println("JSON:", string(b))
 
 	return c.Render(http.StatusOK, "movies", data)
 }
