@@ -5,7 +5,6 @@ development:
 
 production:
   dialect: postgres
-  # datasource: postgresql://${PGUSER}:${PGPASSWORD}@${PGHOST}:${PGPORT}/${PGDATABASE}
   datasource: ${DATABASE_URL}
   dir: migrations/postgres
   table: migrations
