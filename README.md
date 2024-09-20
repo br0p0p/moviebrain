@@ -23,23 +23,23 @@ You'll need the following to run the app:
 2. Run the DB migrations to create the necessary tables:
 
 ```sh
-  sql-migrate up
+sql-migrate up
 ```
 
 3. Seed the DB with some movie and genre data:
 
 ```sh
-  # Seed all genres
-  go run ./cmd/dbseed moviegenres
-  # Seed movies
-  go run ./cmd/dbseed imdblist
+# Seed all genres
+go run ./cmd/dbseed moviegenres
+# Seed movies
+go run ./cmd/dbseed imdblist
 ```
 
 4. Run the app:
 
 ```sh
-  PORT=1323 go run .
+PORT=1323 go run .
 
-  # or this to re-compile when files change
-  ./dev.sh
+# or this to re-compile when files change
+./dev.sh
 ```
