@@ -56,13 +56,6 @@
   backface-visibility: hidden;
 }
 
-/* .movie-row img {
-  margin-right: 2rem;
-  border-radius: 16px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  opacity: 1;
-} */
-
 .movie-row-image > * {
   border-radius: inherit;
 }

@@ -1,6 +1,8 @@
 {{define "content"}}
 <div>
   <form role="search">
+    <!-- This is the search input. -->
+    <!-- The `hx-*` attributes are HTMX specific and define logic about what to do with the response's HTML content. -->
     <input
       name="q"
       type="search"

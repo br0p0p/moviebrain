@@ -1,3 +1,5 @@
+// A basic CLI to make database seeding easier
+
 package main
 
 import (
@@ -18,6 +20,7 @@ func main() {
 
 	var rootCmd = &cobra.Command{Use: "dbseed"}
 
+	// Queries all available genres from TMDB, inserts them into the `genre` table
 	var movieGenresCmd = &cobra.Command{
 		Use:   "moviegenres",
 		Short: "Seed the database with all available movie genres",
@@ -29,8 +32,6 @@ func main() {
 			if err != nil {
 				panic(err)
 			}
-
-			fmt.Println("First item:", result.Genres[0])
 
 			var totalRowsAffected int64 = 0
 			genreInsert := `INSERT INTO genre (id, name) VALUES ($1, $2)`
@@ -46,9 +47,10 @@ func main() {
 		},
 	}
 
+	// Fetches movies from the "IMDB Top 250" list on TMDB, inserts them into the `movie` table, and creates relations for the attached genres.
 	var imdblistCmd = &cobra.Command{
 		Use:   "imdblist",
-		Short: "Seed the database with the top 250 IMDB movies",
+		Short: "Seed the database with the IMDB Top 250 movies",
 		Run: func(cmd *cobra.Command, args []string) {
 			fmt.Println("Running imdblist seed")
 			db = sqlx.MustConnect("postgres", os.Getenv("DATABASE_URL"))
@@ -59,6 +61,7 @@ func main() {
 			movieInsert := `INSERT INTO movie (id, title, original_title, overview, backdrop_path, poster_path, popularity, release_date) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)`
 			movieGenreInsert := `INSERT INTO movie_genre (movie_id, genre_id) VALUES ($1, $2)`
 
+			// There are only 20 results per page so we have to paginate data queries
 			var page int = 1
 
 			for {
@@ -71,14 +74,15 @@ func main() {
 					panic(err)
 				}
 
-				// fmt.Println("First item:", result.Items[0].Title)
 				genreMatches := 0
 
+				// Iterate over all the movie results, inserting them into the `movie` table
 				for _, m := range result.Items {
 					result := db.MustExec(movieInsert, m.ID, m.Title, m.OriginalTitle, m.Overview, m.BackdropPath, m.PosterPath, m.Popularity, m.ReleaseDate)
 					movieRowsAffected, _ := result.RowsAffected()
 					totalMovieRowsAffected += movieRowsAffected
 
+					// For every genre
 					for _, g := range m.GenreIDs {
 						result := db.MustExec(movieGenreInsert, m.ID, g)
 
@@ -90,9 +94,8 @@ func main() {
 
 				}
 
-				// fmt.Println("Inserted", len(result.Items), "movies from page", page)
-				// fmt.Println("Inserted", genreMatches, "genre matches from page", page)
-
+				// This is a quick and dirty way to check if we're on the last page.
+				// Since there are max 20 results per page, if the current page has less than 20 items we can (semi)safely assume we're on the last page.
 				if len(result.Items) < 20 {
 					break
 				}
@@ -103,11 +106,6 @@ func main() {
 			fmt.Println("Inserted", totalMovieRowsAffected, "into table 'movie'")
 			fmt.Println("Inserted", totalMovieGenreRowsAffected, "into table 'movie_genre'")
 			fmt.Println("Inserted", totalMovieRowsAffected+totalMovieGenreRowsAffected, "rows total")
-
-			fmt.Println("Vectorizing...")
-
-			// db.MustExec(`SELECT to_tsvector(title) FROM movie`)
-			// db.MustExec(`SELECT to_tsvector(overview) FROM movie`)
 
 			fmt.Println("Success.")
 		},
