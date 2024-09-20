@@ -20,4 +20,4 @@ You'll need the following to run the app:
 - Place your database connection string and TMDB credentials in the `.env` file (see `.env.example` for a template)
 - Run the DB migrations to create the necessary tables: `sql-migrate up`
 - Seed the DB with some movie and genre data: `go run ./cmd/dbseed moviegenres` and `go run ./cmd/dbseed imdblist`
-- Run the app: `PORT=1323 go run .`
+- Run the app: `PORT=1323 go run .` (or `./dev.sh` to re-compile when files change)
